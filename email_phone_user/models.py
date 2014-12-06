@@ -6,7 +6,6 @@ from django.core.mail import send_mail
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
-import phonenumbers
 
 
 class EmailPhoneUserManager(BaseUserManager):
@@ -17,6 +16,17 @@ class EmailPhoneUserManager(BaseUserManager):
     https://github.com/django/django/blob/master/django/contrib/auth/models.py
 
     """
+    def normalize_phone(self, phone, country_code=None):
+        phone = phone.strip().lower()
+        try:
+            import phonenumbers
+            phone_number = phonenumbers.parse(phone, country_code)
+            phone = phonenumbers.format_number(
+                phone_number, phonenumbers.PhoneNumberFormat.E164)
+        except ImportError:
+            pass
+
+        return phone
 
     def _create_user(self, email_or_phone, password,
                      is_staff, is_superuser, **extra_fields):
@@ -39,11 +49,8 @@ class EmailPhoneUserManager(BaseUserManager):
             email_or_phone = self.normalize_email(email_or_phone)
             username, email, phone = (email_or_phone, email_or_phone, "")
         else:
-            country_code = extra_fields.get("country_code")
-            phone_number = phonenumbers.parse(email_or_phone, country_code)
-            email_or_ phone = phonenumbers.format_number(
-                phone_number, phonenumbers.PhoneNumberFormat.E164)
-
+            phone = self.normalize_phone(
+                email_or_phone, country_code=extra_fields.get("country_code"))
             username, email, phone = (email_or_phone, "", email_or_phone)
 
         now = timezone.now()
