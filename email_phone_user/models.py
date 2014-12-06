@@ -111,7 +111,7 @@ class AbstractEmailPhoneUser(AbstractBaseUser, PermissionsMixin):
             'Unselect this instead of deleting accounts.'))
     date_joined = models.DateTimeField(_('date joined'), default=timezone.now)
 
-    objects = EmailUserManager()
+    objects = EmailPhoneUserManager()
 
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = []
