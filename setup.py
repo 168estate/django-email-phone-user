@@ -11,7 +11,7 @@ def read(fname):
         return ""
 
 setup(
-    name="json-rpc",
+    name="django-email-phone-user",
     version=version,
     packages=find_packages(),
     test_suite="nose.collector",
