@@ -99,7 +99,7 @@ class AbstractEmailPhoneUser(AbstractBaseUser, PermissionsMixin):
         error_messages={
             'unique': _("A user with that username already exists."),
         })
-    email = models.EmailField(_('email'), blank=True)
+    email = models.EmailField(_('email'), max_length=254, blank=True)
     phone = models.CharField(_('phone'), max_length=255, blank=True)
     is_staff = models.BooleanField(
         _('staff status'), default=False, help_text=_(
