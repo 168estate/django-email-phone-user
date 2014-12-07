@@ -99,7 +99,6 @@ class AbstractEmailPhoneUser(AbstractBaseUser, PermissionsMixin):
         error_messages={
             'unique': _("A user with that username already exists."),
         })
-    name = models.CharField(_('name'), max_length=255, blank=True)
     email = models.EmailField(_('email'), blank=True)
     phone = models.CharField(_('phone'), max_length=255, blank=True)
     is_staff = models.BooleanField(
@@ -123,11 +122,11 @@ class AbstractEmailPhoneUser(AbstractBaseUser, PermissionsMixin):
 
     def get_full_name(self):
         """ Return the full name for the user."""
-        return self.name
+        return self.username
 
     def get_short_name(self):
         """ Return the short name for the user."""
-        return self.name
+        return self.username
 
     def email_user(self, subject, message, from_email=None, **kwargs):
         """ Send an email to this User."""
