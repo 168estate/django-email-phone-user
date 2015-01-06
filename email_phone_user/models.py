@@ -65,7 +65,6 @@ class EmailPhoneUserManager(BaseUserManager):
             is_superuser=is_superuser,
             last_login=now,
             date_joined=now,
-            graph_lib='dygraph',
             **extra_fields
         )
         user.set_password(password)
