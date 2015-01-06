@@ -63,8 +63,8 @@ class EmailPhoneUserManager(BaseUserManager):
             is_staff=is_staff,
             is_active=is_active,
             is_superuser=is_superuser,
-            last_login=now(),
-            date_joined=now(),
+            last_login=now,
+            date_joined=now,
             graph_lib='dygraph',
             **extra_fields
         )
